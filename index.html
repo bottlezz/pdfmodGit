@@ -97,7 +97,7 @@
                     };
                     var renderTask = page.render(renderContext);
                     var renderTask = page.render(renderContext);
-                     renderTask.then(function () {
+                    renderTask.then(function () {
                         console.log('Page rendered');
                         var mask = document.getElementById('mask');
                         mask.height = canvas.height;
@@ -119,23 +119,24 @@
     document.getElementById('files').addEventListener('change', handleFileSelect, false);
     // Asynchronous download of PDF
 
-    
+
     var offset = $("#mask").offset();
+    var divPos = {};
     $("#mask").click(function (e) {
-        var divPos = {
+        divPos = {
             left: e.pageX - offset.left,
             top: e.pageY - offset.top
         };
         //console.log(divPos);
         clearCtx("mask");
-        drawName("mask",divPos.left,divPos.top,$("#font").val(),$("#name").val());
+        drawName("mask", divPos.left, divPos.top, $("#font").val(), $("#name").val());
     });
 
 
 
 
     d1.addEventListener("click", function () {
-   drawName("myCanvas",divPos.left,divPos.top,$("#font").val(),$("#name").val());
+        drawName("myCanvas", divPos.left, divPos.top, $("#font").val(), $("#name").val());
         var pdf = new jsPDF('p', 'pt', 'a4');
 
         pdf.addHTML(document.getElementById('myCanvas'), function () {
@@ -145,27 +146,28 @@
         pdf.save("download.pdf");
     }, false);
     function downloadCanvas(link, canvasId, filename) {
-              drawName("myCanvas",divPos.left,divPos.top,$("#font").val(),$("#name").val());
+        drawName("myCanvas", divPos.left, divPos.top, $("#font").val(), $("#name").val());
         link.href = document.getElementById(canvasId).toDataURL();
         link.download = filename;
     }
     d2.addEventListener('click', function () {
         downloadCanvas(this, 'myCanvas', 'test.png');
     }, false);
-    function drawName(canvasName,x, y,size, val) {
+    function drawName(canvasName, x, y, size, val) {
 
         var canvas = document.getElementById(canvasName);
         var context = canvas.getContext('2d');
-        context.font = size+"px Comic Sans MS";
+        context.font = size + "px Comic Sans MS";
         context.fillStyle = "red";
         context.textAlign = "center";
         context.fillText(val, x, y);
     }
-    function clearCtx(canvasName){
-         ctx = document.getElementById(canvasName).getContext("2d");
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    function clearCtx(canvasName) {
+        ctx = document.getElementById(canvasName).getContext("2d");
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
+
 </script>
 
 </html>
